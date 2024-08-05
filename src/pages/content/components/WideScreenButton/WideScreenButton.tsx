@@ -1,4 +1,4 @@
-import { createEffect, createSignal, JSX, onCleanup, onMount, Show } from "solid-js";
+import { createEffect, createSignal, JSX, on, onCleanup, onMount, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import "./WideScreenButton.module.css";
 import { TbViewportNarrow, TbViewportWide } from 'solid-icons/tb'
@@ -67,8 +67,10 @@ const WideScreenButton: () => JSX.Element = () => {
       let mvBox: HTMLDivElement | null;
       let mvPlayerBox: HTMLDivElement | null;
 
+      const [trigger, setTrigger] = createSignal(0);
+
       const toggleWideScreen = () => {
-            setIsWideScreen((isWideScreen) => !isWideScreen);
+            setIsWideScreen((v) => !v);
       }
 
       onMount(() => {
@@ -107,14 +109,18 @@ const WideScreenButton: () => JSX.Element = () => {
                         setContainerStyle("playerBoxHeight", mvPlayerBox.style.getPropertyValue("height"));
                         setPlayerBoxHeight(mvPlayerBox, isWideScreen());
                   }
+
+                  if (isWideScreen())
+                        setTimeout(() => {
+                              setTrigger((v) => v + 1);
+                        }, 500);
             }
       });
 
-      createEffect(() => {
+      createEffect(on([isWideScreen, trigger], ([isWide]) => {
             if (!mvContainer)
                   return;
 
-            const isWide = isWideScreen();
             applyWideScreen(mvContainer, isWide);
 
             if (mvBox)
@@ -122,7 +128,7 @@ const WideScreenButton: () => JSX.Element = () => {
 
             if (mvPlayerBox)
                   setPlayerBoxHeight(mvPlayerBox, isWide);
-      });
+      }));
 
       onCleanup(() => {
             if (mvContainer) {
