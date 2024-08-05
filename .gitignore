@@ -14,3 +14,7 @@
 
 #generated manifest
 public/manifest.json
+
+# generated crx
+*.crx
+*.pem
