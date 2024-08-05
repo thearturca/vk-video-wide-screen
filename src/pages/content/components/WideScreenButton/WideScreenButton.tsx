@@ -9,6 +9,7 @@ const [containerStyle, setContainerStyle] = createStore({
       "--player-height": "537.75px",
       "--player-width": "956px",
       "hidePlaylist": false,
+      "hideRecomms": false,
       "playerBoxHeight": "537.75px",
 });
 
@@ -45,12 +46,17 @@ function applyWideScreen(element: HTMLElement, isWide: boolean) {
 function setPlaylistDisplay(element: HTMLElement, isWide: boolean) {
       if (isWide) {
             element.classList.add("_hide_playlist")
+            element.classList.add("_hide_recomms")
       } else {
             if (containerStyle.hidePlaylist)
-
                   element.classList.add("_hide_playlist")
             else
                   element.classList.remove("_hide_playlist")
+
+            if (containerStyle.hideRecomms)
+                  element.classList.add("_hide_recomms")
+            else
+                  element.classList.remove("_hide_recomms")
       }
 }
 
@@ -99,7 +105,8 @@ const WideScreenButton: () => JSX.Element = () => {
                   applyWideScreen(mvContainer, isWideScreen());
 
                   if (mvBox) {
-                        containerStyle.hidePlaylist = mvBox.classList.contains("_hide_playlist");
+                        setContainerStyle("hidePlaylist", mvBox.classList.contains("_hide_playlist"));
+                        setContainerStyle("hideRecomms", mvBox.classList.contains("_hide_recomms"));
                         setPlaylistDisplay(mvBox, isWideScreen());
                   }
 
