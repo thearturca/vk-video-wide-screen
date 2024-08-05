@@ -1,7 +1,7 @@
 {
       "name": "vk-video-wide-screen-extension",
       "displayName": "VK Video Wide Screen",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "Adds wide screen mode to VK Video player like in YouTube",
       "license": "MIT",
       "repository": {
